@@ -1,41 +1,43 @@
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // For sliding icons
 
-const quizzes = [
-  {
-    id: 1122,
-    name: "JavaScript Basics",
-    rate: 4.5,
-    image: "/images/js-quiz.jpg",
-    description: "Test your knowledge of JavaScript fundamentals.",
-  },
-  {
-    id: 112233,
-    name: "CSS Mastery",
-    rate: 4.8,
-    image: "/images/css-quiz.jpg",
-    description: "How well do you know CSS and modern layouts?",
-  },
-  {
-    id: 123123,
-    name: "React Quiz",
-    rate: 4.7,
-    image: "/images/react-quiz.jpg",
-    description: "Challenge yourself with this advanced React quiz.",
-  },
-  {
-    id: 2354,
-    name: "Python Essentials",
-    rate: 4.9,
-    image: "/images/python-quiz.jpg",
-    description: "Assess your Python skills with this quiz.",
-  },
-  // Add more quiz data here
-];
+// const quizzes = [
+//   {
+//     id: 1122,
+//     name: "JavaScript Basics",
+//     rate: 4.5,
+//     image: "/images/js-quiz.jpg",
+//     description: "Test your knowledge of JavaScript fundamentals.",
+//   },
+//   {
+//     id: 112233,
+//     name: "CSS Mastery",
+//     rate: 4.8,
+//     image: "/images/css-quiz.jpg",
+//     description: "How well do you know CSS and modern layouts?",
+//   },
+//   {
+//     id: 123123,
+//     name: "React Quiz",
+//     rate: 4.7,
+//     image: "/images/react-quiz.jpg",
+//     description: "Challenge yourself with this advanced React quiz.",
+//   },
+//   {
+//     id: 2354,
+//     name: "Python Essentials",
+//     rate: 4.9,
+//     image: "/images/python-quiz.jpg",
+//     description: "Assess your Python skills with this quiz.",
+//   },
+//   // Add more quiz data here
+// ];
+
 
 export default function QuizCardList() {
   const sliderRef = useRef(null);
+  const [quizzes, setQuizzes] = useState([])
 
   // Function to handle sliding
   const slideLeft = () => {
@@ -45,7 +47,21 @@ export default function QuizCardList() {
   const slideRight = () => {
     sliderRef.current.scrollLeft += 300;
   };
-
+  useEffect(()=>{
+    const getquiz = async() => {
+      const res = await fetch('/api/quiz/getquiz')
+      const data = await res.json();
+      console.log(data.data)
+      if(res.ok){
+        setQuizzes(data.data);
+      }
+      else{
+        
+      }
+      
+    }
+    getquiz();
+  },[]);
   return (
     <div className="relative max-w-full">
       {/* Left Slide Button */}
@@ -75,7 +91,7 @@ export default function QuizCardList() {
             />
             <div className="mt-4">
               <h3 className="text-lg font-bold text-gray-800">{quiz.name}</h3>
-              <p className="text-sm text-gray-600 mt-2">{quiz.description}</p>
+              <p className="text-sm text-gray-600 mt-2">{quiz.name}</p>
               <div className="flex items-center mt-3">
                 <span className="text-yellow-500 mr-1">★</span>
                 <span className="text-gray-800 font-semibold">{quiz.rate}</span>

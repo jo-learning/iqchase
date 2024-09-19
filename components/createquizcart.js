@@ -9,14 +9,9 @@ export default function CreateQuizCard() {
 
         {/* Buttons for single and multiple choice quiz creation */}
         <div className="grid grid-cols-1 gap-4">
-          <Link href="/create/single-choice" className='mb-3'>
+          <Link href="/create" className='mb-3'>
             <span className="bg-purple-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition-all">
               Create Single Choice Quiz
-            </span>
-          </Link>
-          <Link href="/create/multiple-choice">
-            <span className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-all">
-              Create Multiple Choice Quiz
             </span>
           </Link>
         </div>

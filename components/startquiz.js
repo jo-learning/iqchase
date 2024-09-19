@@ -10,7 +10,7 @@ export default function StartQuiz({quiz}){
 
         {/* Buttons for single and multiple choice quiz creation */}
         <div className="grid grid-cols-1 gap-4">
-          <Link href="/create/single-choice" className='mb-3'>
+          <Link href="/single-choice" className='mb-3'>
             <span className="bg-purple-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition-all">
               Start Quiz
             </span>
