@@ -3,10 +3,15 @@ import { useState } from 'react';
 import QuizFormModal from '../../components/quizmodalform';
 import QuizList from '../../components/quizlist';
 import Header from '@/components/Header';
+import clsx from 'clsx';
+import ClipLoader from "react-spinners/ClipLoader";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [quizzes, setQuizzes] = useState([]);
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -21,37 +26,65 @@ export default function Home() {
       [name]: value,
     }));
   };
-
-  const handleImageChange = (e) => {
+  const [image, setImage] = useState(null);
+  const handleImageChanges = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setFormData((prevData) => ({
-        ...prevData,
-        // image: file,
-        image: "/images/images.jpeg"
-      }));
-      setImagePreview(URL.createObjectURL(file));
-    }
+    setImage(file);
+    setImagePreview(URL.createObjectURL(file));
   };
 
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       // image: file,
+  //       image: "/images/images.jpeg"
+  //     }));
+  //     setImagePreview(URL.createObjectURL(file));
+  //   }
+  // };
+
   const handleSubmit = async(e) => {
+    setLoading(true)
     e.preventDefault();
     // Add form submission logic here (API call or form processing)
+
+
+    const imageData = new FormData();
+    imageData.append("image", image);
+    const re = await fetch("/api/upload", {
+      method: "POST",
+      body: imageData,
+    });
+    const redata = await re.json();
+
+    // console.log(quizzes)
+    if (redata.filePath) {
+    const imageUrl = redata.filePath;
     const res = await fetch('/api/quiz/addquiz', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({formData, options: quizzes})
+      body: JSON.stringify({formData, options: quizzes, imageUrl})
     })
     const data = await res.json()
     if(res.ok){
       console.log("we did it we made it")
+      toast.success(data.message)
+      setLoading(false)
     }
     else{
       console.log("I am sorry", data)
+      toast.error(data.message)
+      setLoading(false)
     }
-    console.log('Form Data Submitted:', formData, quizzes);
+    console.log('Form Data Submitted:', formData, quizzes);}
+    else {
+      toast.error("image not uploaded Try again");
+      return;
+    }
   };
 
   const handleAddQuiz = (newQuiz) => {
@@ -130,7 +163,7 @@ export default function Home() {
             type="file"
             name="image"
             accept="image/*"
-            onChange={handleImageChange}
+            onChange={handleImageChanges}
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none"
             required
           />
@@ -177,11 +210,22 @@ export default function Home() {
     <div className="flex justify-center">
           <button
             onClick={handleSubmit}
-            className="bg-blue-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-600 transition duration-300"
+            className={clsx("flex bg-blue-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-600 transition duration-300", {
+              "disabled": loading == true
+            })}
           >
+            {
+              loading && (<ClipLoader
+                loading='true'
+                size={25}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />)
+            }
             Submit
           </button>
         </div>
+        <ToastContainer />
     </div>
     
   );

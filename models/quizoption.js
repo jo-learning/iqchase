@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   quizoption.init({
     quiz_id: DataTypes.INTEGER,
-    option_text: DataTypes.STRING,
-    is_correct: DataTypes.BOOLEAN
+    option_text: DataTypes.TEXT,
+    is_correct: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'quizoption',

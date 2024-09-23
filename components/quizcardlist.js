@@ -1,43 +1,13 @@
 import Link from 'next/link';
 import { useRef, useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // For sliding icons
-
-// const quizzes = [
-//   {
-//     id: 1122,
-//     name: "JavaScript Basics",
-//     rate: 4.5,
-//     image: "/images/js-quiz.jpg",
-//     description: "Test your knowledge of JavaScript fundamentals.",
-//   },
-//   {
-//     id: 112233,
-//     name: "CSS Mastery",
-//     rate: 4.8,
-//     image: "/images/css-quiz.jpg",
-//     description: "How well do you know CSS and modern layouts?",
-//   },
-//   {
-//     id: 123123,
-//     name: "React Quiz",
-//     rate: 4.7,
-//     image: "/images/react-quiz.jpg",
-//     description: "Challenge yourself with this advanced React quiz.",
-//   },
-//   {
-//     id: 2354,
-//     name: "Python Essentials",
-//     rate: 4.9,
-//     image: "/images/python-quiz.jpg",
-//     description: "Assess your Python skills with this quiz.",
-//   },
-//   // Add more quiz data here
-// ];
+import LoadingSpinner from './loadingspinner';
 
 
 export default function QuizCardList() {
   const sliderRef = useRef(null);
   const [quizzes, setQuizzes] = useState([])
+  const [loading, setLoading] = useState(false);
 
   // Function to handle sliding
   const slideLeft = () => {
@@ -49,10 +19,23 @@ export default function QuizCardList() {
   };
   useEffect(()=>{
     const getquiz = async() => {
+      setLoading(true);
+      const res11 = await fetch('/api/quiz/getquiz/22')
       const res = await fetch('/api/quiz/getquiz')
       const data = await res.json();
-      console.log(data.data)
+      const data11 = await res11.json();
+      const question = data11.Quizzes;
+      const options = data11.QuizOptions;
+      let fullquiz = []
+      for (let i=0; i < question.length; i++){
+        // fullquiz[i].id = question[i].id
+        fullquiz = [...fullquiz,{ id: question[i].id, question: question[i].question, options: options[i] }]
+        // fullquiz[i].question = question[i].question
+
+      }
+      console.log(fullquiz)
       if(res.ok){
+        setLoading(false);
         setQuizzes(data.data);
       }
       else{
@@ -62,6 +45,9 @@ export default function QuizCardList() {
     }
     getquiz();
   },[]);
+
+  if (loading) return (<div><LoadingSpinner /></div>);
+
   return (
     <div className="relative max-w-full">
       {/* Left Slide Button */}
@@ -82,7 +68,7 @@ export default function QuizCardList() {
             key={index}
             className="min-w-[250px] bg-white shadow-lg rounded-lg p-4 flex-shrink-0"
           >
-          <Link href={`/quizstart/${quiz.name}`}>
+          <Link href={`/quizstart/${quiz.id}`}>
           
             <img
               src={quiz.image}

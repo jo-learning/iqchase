@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { quizzes } from "../data/quizzes";
+import { useSession } from "next-auth/react";
 
 import Head from "next/head";
 import Header from "../components/Header";
@@ -7,22 +8,9 @@ import CreateQuizCard from "@/components/createquizcart";
 import QuizCardList from "@/components/quizcardlist";
 
 export default function Home() {
+  const {data: session, status } = useSession();
+  console.log(session);
   return (
-    // <div className="max-w-2xl mx-auto p-4">
-    //   <h1 className="text-3xl font-bold mb-6">Quizzes</h1>
-
-    //   <ul className="space-y-4">
-    //     {quizzes.map((quiz) => (
-    //       <li key={quiz.id} className="border p-4 rounded">
-    //         <h2 className="text-xl font-bold mb-2">{quiz.title}</h2>
-    //         <p className="mb-2">{quiz.description}</p>
-    //         <Link href={`/quiz/${quiz.id}`}>
-    //           <span className="text-blue-500">Take Quiz</span>
-    //         </Link>
-    //       </li>
-    //     ))}
-    //   </ul>
-    // </div>
     <div className="bg-gray-400">
       <Head>
         <title>IQCHASE</title>

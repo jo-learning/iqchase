@@ -17,7 +17,13 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     time: DataTypes.INTEGER,
     image: DataTypes.STRING,
-    success: DataTypes.BOOLEAN
+    success: {
+      type: DataTypes.BOOLEAN,
+    defaultValue: false
+    },
+    description: {
+      type:DataTypes.TEXT,
+    defaultValue: ""}
   }, {
     sequelize,
     modelName: 'quizname',

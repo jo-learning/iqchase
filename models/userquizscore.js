@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   userquizscore.init({
     user_id: DataTypes.INTEGER,
     quiz_id: DataTypes.INTEGER,
-    score: DataTypes.INTEGER
+    score: DataTypes.INTEGER,
+    name: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'userquizscore',

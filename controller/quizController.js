@@ -20,15 +20,17 @@ export const addQuiz = async (req, res) => {
   if (req.method !== "POST") {
     return res.status(400).json({ message: "Only POST is Accepted" });
   }
-  const { name, time, image, description } = req.body.formData;
+  const { name, time, description } = req.body.formData;
   // console.log(req.body.formData)
   // console.log(req.body.options)
   const options = req.body.options;
-  console.log("it is fine !!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+  const image = req.body.imageUrl;
+  // console.log("it is fine !!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
   if (!name || !time || !image || !description || !options) {
     return res.status(400).json({ message: "Fill All Requirments" });
   }
+  // console.log(options[0].options);
   try {
     const newQuizName = await quizname.create({
       name: name,
@@ -39,17 +41,21 @@ export const addQuiz = async (req, res) => {
     let i = 0;
     let quizOption = [];
     let quizz = [];
+    
     while (i < options.length) {
       const newQuiz = await quiz.create({
         question: options[i].question,
         quizname_id: newQuizName.id,
       });
-      const newQuizOption = await quizoption.create({
-        quiz_id: newQuiz.id,
-        option_text: options[i].text,
-        is_correct: options[i].is_correct,
-      });
-      quizOption[i] = newQuizOption;
+      for (let j = 0; j < options[i].options.length; j++){
+        const newQuizOption = await quizoption.create({
+          quiz_id: newQuiz.id,
+          option_text: options[i].options[j].text,
+          is_correct: options[i].options[j].isCorrect,
+        });
+        quizOption[i] = newQuizOption;
+      }
+      
       quizz[i] = newQuiz;
       i++;
     }

@@ -7,10 +7,10 @@ const fakeQuizData = [
     id: 1,
     question: 'What is the capital of France?',
     options: [
-      { id: 'a', text: 'Berlin' },
-      { id: 'b', text: 'Madrid' },
-      { id: 'c', text: 'Paris' },
-      { id: 'd', text: 'Lisbon' },
+      { id: 'a', option_text: 'Berlin', is_correct: "false" },
+      { id: 'b', option_text: 'Madrid', is_correct: "false"  },
+      { id: 'c', option_text: 'Paris', is_correct: "true"  },
+      { id: 'd', option_text: 'Lisbon', is_correct: "false"  },
     ],
     answer: 'c',
   },
@@ -18,10 +18,10 @@ const fakeQuizData = [
     id: 2,
     question: 'Which planet is known as the Red Planet?',
     options: [
-      { id: 'a', text: 'Earth' },
-      { id: 'b', text: 'Mars' },
-      { id: 'c', text: 'Jupiter' },
-      { id: 'd', text: 'Venus' },
+      { id: 'a', option_text: 'Earth', is_correct: "false"  },
+      { id: 'b', option_text: 'Mars', is_correct: "true"  },
+      { id: 'c', option_text: 'Jupiter', is_correct: "false"  },
+      { id: 'd', option_text: 'Venus', is_correct: "false"  },
     ],
     answer: 'b',
   },
@@ -29,10 +29,10 @@ const fakeQuizData = [
     id: 3,
     question: "Who wrote 'Pride and Prejudice'?",
     options: [
-      { id: 'a', text: 'Jane Austen' },
-      { id: 'b', text: 'Charles Dickens' },
-      { id: 'c', text: 'William Shakespeare' },
-      { id: 'd', text: 'Mark Twain' },
+      { id: 'a', option_text: 'Jane Austen', is_correct: "true"  },
+      { id: 'b', option_text: 'Charles Dickens', is_correct: "false"  },
+      { id: 'c', option_text: 'William Shakespeare', is_correct: "false"  },
+      { id: 'd', option_text: 'Mark Twain', is_correct: "false"  },
     ],
     answer: 'a',
   },
@@ -52,8 +52,19 @@ const Quiz = () => {
   };
 
   const handleNextQuestion = () => {
-    if (selectedOption === fakeQuizData[currentQuestion].answer) {
-      setScore(score + 1);
+    // if (selectedOption === fakeQuizData[currentQuestion].answer) {
+    //   setScore(score + 1);
+    // }
+    for (let i =0; i< fakeQuizData[currentQuestion].options.length; i++){
+      if (selectedOption == fakeQuizData[currentQuestion].options[i].id){
+        if(fakeQuizData[currentQuestion].options[i].is_correct == "true"){
+          setScore(score + 1);
+          break;
+        }
+        else{
+          break;
+        }
+      }
     }
     if (currentQuestion + 1 < fakeQuizData.length) {
       setCurrentQuestion(currentQuestion + 1);
@@ -144,7 +155,7 @@ const Quiz = () => {
                       : 'border-gray-300'
                   }`}
                 >
-                  {option.text}
+                  {option.option_text}
                 </button>
               ))}
             </div>

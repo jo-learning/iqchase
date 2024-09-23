@@ -3,10 +3,24 @@ import CreateQuizCard from "./createquizcart";
 import QuizCardList from "./quizcardlist";
 import LoginModal from "./loginmodal";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useRouter } from 'next/router';
 export default function Header() {
-    const [isLoggedIn, setIsLoggedIn] = useState(true); 
+    const [isLoggedIn, setIsLoggedIn] = useState(false); 
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const {data: session, status} = useSession();
+    const [gamepin, setGamePin] = useState('')
+    const router = useRouter();
+
+    const navigateToGame = (gamePin) => {
+      // Navigate to the 'game' page with the gamePin as a query parameter
+      console.log(gamePin);
+      router.push({
+        pathname: '/wordgame/testgame',
+      });
+    };
+
     function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -20,18 +34,19 @@ export default function Header() {
           <label htmlFor="game-pin" className="text-lg font-medium">
             Join a Quiz
           </label>
-          <input
+          {/* <input
             type="text"
             id="game-pin"
             placeholder="Enter Game PIN"
+            onClick={(e) => setGamePin(e.target.value)}
             className="px-4 py-2 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-all">
+          /> */}
+          <button onClick={()=> navigateToGame(gamepin)} className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition-all">
             Join
           </button>
         </div>
         {/* Add login button or avatar */}
-        {isLoggedIn ? (
+        {session ? (
           <div className="flex items-center space-x-3">
             <button
             onClick={() => setIsLoggedIn(false)} // Example login action
@@ -43,21 +58,22 @@ export default function Header() {
             
           </button>
             <img
-              src="/avatar.jpg" // Replace with the user's actual avatar source
+              src={session.user.image} // Replace with the user's actual avatar source
               alt="User Avatar"
               className="w-10 h-10 rounded-full border-2 border-white"
             />
-            <span className="text-lg">Yohanns Guesh</span>
+            <span className="text-lg">{session.user.name}</span>
+            <a onClick={() => {signOut()}}>logout</a>
           </div>
         ) : (
           <button
             onClick={async() => {
-              // setIsLoginModalOpen(true)
+              setIsLoginModalOpen(true)
               
-              signIn("google")
+              // signIn("google")
                
               //  sleep(120)
-              // setIsLoggedIn(true)
+              setIsLoggedIn(true)
             }
             } // Example login action
             className="bg-white text-purple-500 px-6 py-2 rounded-lg hover:bg-gray-200 transition-all"
