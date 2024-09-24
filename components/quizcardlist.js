@@ -24,7 +24,9 @@ export default function QuizCardList() {
       const res = await fetch('/api/quiz/getquiz')
       const data = await res.json();
       const data11 = await res11.json();
-      const question = data11.Quizzes;
+      let question = 0
+      if (data11.Quizzes){
+      question = data11.Quizzes;}
       const options = data11.QuizOptions;
       let fullquiz = []
       for (let i=0; i < question.length; i++){

@@ -1,30 +1,12 @@
-const Sequelize = require("sequelize");
-const { sequelize } = require("@/models");
-const quiz = require("../models/quiz")(
-  sequelize,
-  Sequelize.DataTypes,
-  Sequelize.Model
-);
-const quizname = require("../models/quizname")(
-  sequelize,
-  Sequelize.DataTypes,
-  Sequelize.Model
-);
-const quizoption = require("../models/quizoption")(
-  sequelize,
-  Sequelize.DataTypes,
-  Sequelize.Model
-);
-const user = require("../models/user")(
-    sequelize,
-    Sequelize.DataTypes,
-    Sequelize.Model
-  );
-const userScore = require("../models/userquizscore")(
-    sequelize,
-    Sequelize.DataTypes,
-    Sequelize.Model
-  );
+// const Sequelize = require("sequelize");
+// const { sequelize } = require("@/models");
+// const quiz = require("../models/quiz")
+// const quizname = require("../models/quizname")
+// const quizoption = require("../models/quizoption")
+// const user = require("../models/user")
+// const userScore = require("../models/userquizscore")
+import sequelize from "@/models";
+import user from "../models/user";
 // const {quiz} = sequelize.import('../models/quiz')
 export const creatUser = async (users, provider) => {
     // if (req.method !== "POST") {

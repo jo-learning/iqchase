@@ -1,20 +1,13 @@
-const Sequelize = require("sequelize");
-const { sequelize } = require("@/models");
-const quiz = require("../models/quiz")(
-  sequelize,
-  Sequelize.DataTypes,
-  Sequelize.Model
-);
-const quizname = require("../models/quizname")(
-  sequelize,
-  Sequelize.DataTypes,
-  Sequelize.Model
-);
-const quizoption = require("../models/quizoption")(
-  sequelize,
-  Sequelize.DataTypes,
-  Sequelize.Model
-);
+// const Sequelize = require("sequelize");
+// const { sequelize } = require("@/models");
+// const quiz = require("../models/quiz")
+// const quizname = require("../models/quizname")
+// const quizoption = require("../models/quizoption")
+
+import quiz from "../models/quiz";
+import quizname from "../models/quizname";
+import quizoption from "../models/quizoption";
+
 // const {quiz} = sequelize.import('../models/quiz')
 export const addQuiz = async (req, res) => {
   if (req.method !== "POST") {

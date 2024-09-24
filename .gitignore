@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /config/config.json
+/config/config.deleted.json
 /.pnp
 .pnp.js
 .yarn/install-state.gz

@@ -1,30 +1,17 @@
-const Sequelize = require("sequelize");
-const { sequelize } = require("@/models");
-const quiz = require("../models/quiz")(
-  sequelize,
-  Sequelize.DataTypes,
-  Sequelize.Model
-);
-const quizname = require("../models/quizname")(
-  sequelize,
-  Sequelize.DataTypes,
-  Sequelize.Model
-);
-const quizoption = require("../models/quizoption")(
-  sequelize,
-  Sequelize.DataTypes,
-  Sequelize.Model
-);
-const user = require("../models/user")(
-    sequelize,
-    Sequelize.DataTypes,
-    Sequelize.Model
-  );
-const userScore = require("../models/userquizscore")(
-    sequelize,
-    Sequelize.DataTypes,
-    Sequelize.Model
-  );
+// const Sequelize = require("sequelize");
+// const { sequelize } = require("@/models");
+// const quiz = require("../models/quiz")
+// const quizname = require("../models/quizname")
+// const quizoption = require("../models/quizoption")
+// const user = require("../models/user")
+// const userScore = require("../models/userquizscore")
+
+import quiz from "../models/quiz";
+import quizname from "../models/quizname";
+import quizoption from "../models/quizoption";
+import user from "../models/user";
+import userScore from "../models/userquizscore";
+
  import { getServerSession } from "next-auth";
  import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
